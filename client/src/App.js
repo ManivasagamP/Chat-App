@@ -1,25 +1,24 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useContext, useState } from 'react'
+import {v4 as uuid} from "uuid"
+import Home from "./Pages/Home/Home";
+import Chat from "./Pages/Chat/Chat";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+const App = () => {
 
-export default App;
+  const [userName,setUserName]=useState("");
+  const [userId,setUserId]=useState(uuid());
+  const [startChat,setStartChat] = useState(false);
+
+  if(startChat){
+    return (<Chat/>)
+  }
+  return <Home 
+  userName={userName}
+  setUserName={setUserName}
+  setStartChat={setStartChat}
+  userId={userId}
+  />
+  
+};
+
+export default App
