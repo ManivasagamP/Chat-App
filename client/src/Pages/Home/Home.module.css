@@ -1,0 +1,64 @@
+.container{
+    max-width: 10000px;
+    margin: auto;
+    margin-top: 20px;
+    padding: 0 20px;
+}
+
+.navbar{
+    font-size: 30px;
+    text-decoration: double;
+    
+}
+
+.home{
+    margin-top: 80px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.left h1{
+    font-size: 63px;
+    font-weight: 500;
+}
+
+.left p{
+    color: rgba(39, 34, 34, 0.748);
+    font-size: 16px;
+    font-weight: 500;
+    padding-top: 20px;
+}
+.inputcontainer{
+    margin-top: 20px;
+    display: inline-flex;
+    align-items: center;
+    border: 1px solid rgb(179, 179, 179);
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.inputcontainer input{
+    width: 450px;
+    outline: none;
+    padding: 15px 0;
+    padding-left: 15px;
+    border: none;
+    font-size: 16px;
+}
+
+.inputcontainer > button{
+    background-color: transparent;
+    border: none;
+    padding: 0 5px;
+    cursor: pointer;
+}
+
+.inputcontainer > button > img{
+    width: 40px;
+}
+
+.right img{
+    width: 600px;
+    object-fit: contain;
+    border-radius: 20px;
+}

@@ -1,7 +1,24 @@
 import React from 'react'
-import styles from "./Home.module.css"
+import styles from "./Home.module.css";
+import chatImg from "../../assets/chat.jpeg"
+import msgImg from "../../assets/msg.png"
+
 
 const Home = ({userName,setUserName,setStartChat,userId}) => {
+
+    const startChat = ()=>{
+        if (!userName){
+            alert("Please enter your name !!");
+            return;
+        }
+        const data ={
+            userName,
+            id:userId,
+        }
+        sessionStorage.setItem("user",JSON.stringify(data));
+        setStartChat(true);
+    };
+
   return (
     <div className={styles.container}>
         <nav className={styles.navbar}>
@@ -16,10 +33,15 @@ const Home = ({userName,setUserName,setStartChat,userId}) => {
                         type="text"
                         value={userName}
                         placeholder="Enter your Name "
-                        onchange={(e)=> setUserName(e.target.value)}
+                        onChange={(e)=> setUserName(e.target.value)}
                     />
-                
+                    <button onClick={startChat}>
+                        <img src={msgImg} alt='message'></img>
+                    </button>
                 </div>
+            </div>
+            <div className={styles.right}>
+                <img src={chatImg} alt='chat' />
             </div>
         </div>
     </div>
