@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
 import styles from "./Chat.module.css"
 import {useMutation,gql} from "@apollo/client"
+import enterImg from "../../assets/enter.png"
+import Messages from '../../components/Messages';
 
 const POST_MESSAGE = gql`
   mutation ($userId:String!,$user:String!,$content:String!){
@@ -9,14 +11,14 @@ const POST_MESSAGE = gql`
 `;
 
 
-const Chat = () => {
+const Chat = ({userName, userId}) => {
   const [state, setState] = useState({
-    userId:"",
-    user:"",
+    userId: userId,
+    user: userName,
     content:"",
   });
 
-const [postMessage] = useMutation(POST_MESSAGE)
+const [postMessage] = useMutation(POST_MESSAGE);
 
 const onSend = ()=>{
   if(state.content.length>0){
@@ -31,39 +33,36 @@ const onSend = ()=>{
 
   return (
     <div className={ styles.container}>
-      <div className='styles.nav'>
-        <button> Leave as this user </button>
+      <div className={styles.nav}>
         <div className={styles.title}>
           <h1>TeleChat App</h1>
           <p>The one time chat app to chat within our Community</p>
         </div>
-        <button>Hidden Button</button>
-
-        {/* Message container */}
-        <div className={styles.chatContainer}>
+      </div>
+      <Messages uId={userId} />
+      <div className={styles.chatContainer}>
           <div className={styles.chatInput}>
             <input 
               type='text'
               name='content'
               onChange={(e)=>{
-                setState((prevCurret)=>({
-                  ...prevCurret,
+                setState((prevCurrent)=>({
+                  ...prevCurrent,
                   content:e.target.value,
                 }));
               }}
               value={state.content}
               onKeyUp={(e)=>{
-                if(e.key===13){
-                  onSend()
+                if(e.key==='Enter'){
+                  onSend();
                 }
               }}
             />
+            <img src={enterImg} alt='enter' onClick={onSend} />
           </div>
         </div>
-      </div>
     </div>
-  )
-  
-}
+  );
+};
 
-export default Chat
+export default Chat;

@@ -1,9 +1,15 @@
-const { createYoga } = require('graphql-yoga');
-const { makeExecutableSchema } = require('@graphql-tools/schema');
-const { PubSub } = require('graphql-subscriptions');
 const { createServer } = require('http');
+const express = require('express');
+const { makeExecutableSchema } = require('@graphql-tools/schema');
+const { ApolloServer } = require('@apollo/server');
+const { expressMiddleware } = require('@apollo/server/express4');
+const { useServer } = require('graphql-ws/lib/use/ws');
+const { WebSocketServer } = require('ws');
+const cors = require('cors');
+const { PubSub } = require('graphql-subscriptions');
+const bodyParser = require('body-parser');
 
-const messages = [];
+const pubsub = new PubSub();
 
 const typeDefs = `
 type Message {
@@ -26,8 +32,7 @@ type Subscription {
 }
 `;
 
-const subscribers = [];
-const onMessagesUpdates = (fn) => subscribers.push(fn);
+const messages = [];
 
 const resolvers = {
     Query: {
@@ -42,32 +47,37 @@ const resolvers = {
                 user: args.user,
                 content: args.content,
             });
-            subscribers.forEach((fn) => fn());
+            pubsub.publish('MESSAGES', { messages });
             return id;
         },
     },
     Subscription: {
         messages: {
-            subscribe: (parent, args, { pubsub }) => {
-                const channel = Math.random().toString(36).slice(2, 15);
-                onMessagesUpdates(() => pubsub.publish(channel, { messages }));
-                setTimeout(() => pubsub.publish(channel, { messages }), 0);
-                return pubsub.asyncIterator(channel);
-            },
+            subscribe: () => pubsub.asyncIterator(['MESSAGES']),
         },
     },
 };
 
-const pubsub = new PubSub();
 const schema = makeExecutableSchema({ typeDefs, resolvers });
 
-const yoga = createYoga({
-    schema,
-    context: { pubsub },
+const app = express();
+app.use(cors());
+app.use(bodyParser.json());
+
+const httpServer = createServer(app);
+
+const wsServer = new WebSocketServer({
+    server: httpServer,
+    path: '/graphql',
 });
 
-const server = createServer(yoga);
+useServer({ schema }, wsServer);
 
-server.listen(4000, () => {
-    console.log('Server is running on http://localhost:4000');
+const apolloServer = new ApolloServer({ schema });
+await apolloServer.start();
+
+app.use('/graphql', expressMiddleware(apolloServer));
+
+httpServer.listen(4000, () => {
+    console.log(`Server is running on http://localhost:4000/graphql`);
 });

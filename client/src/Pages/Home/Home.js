@@ -14,7 +14,7 @@ const Home = ({userName,setUserName,setStartChat,userId}) => {
         const data ={
             userName,
             id:userId,
-        }
+        };
         sessionStorage.setItem("user",JSON.stringify(data));
         setStartChat(true);
     };
@@ -36,7 +36,7 @@ const Home = ({userName,setUserName,setStartChat,userId}) => {
                         onChange={(e)=> setUserName(e.target.value)}
                     />
                     <button onClick={startChat}>
-                        <img src={msgImg} alt='message'></img>
+                        <img src={msgImg} alt='message' />
                     </button>
                 </div>
             </div>
@@ -45,7 +45,7 @@ const Home = ({userName,setUserName,setStartChat,userId}) => {
             </div>
         </div>
     </div>
-  )
-}
+  );
+};
 
 export default Home

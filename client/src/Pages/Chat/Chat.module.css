@@ -1,0 +1,52 @@
+.container{
+    max-width: 1000px;
+    margin: auto;
+    margin-top: 20px;
+}
+
+.nav {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 40px;
+}
+
+.back{
+    background: transparent;
+    color: #274c83;
+    border: none;
+    font-size: 18px;
+}
+
+.title{
+    text-align: center;
+}
+
+.hidden{
+    opacity: 0;
+}
+
+.chatInput{
+    margin: auto;
+    width: 880px;
+    justify-content: center;
+    display: flex;
+    box-shadow: 3px -1px 20px -2px rgba(153, 153, 153, 1);
+    padding: 8px 0;
+    border-radius: 10px;
+}
+
+.chatInput input{
+    border: none;
+    flex: 1;
+    padding-left: 10px;
+    font-size: 18px;
+    outline: none;
+    
+}
+
+.chatInput img{
+    width: 50px;
+    cursor: pointer;
+    padding-right:  15px;
+
+}

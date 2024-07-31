@@ -10,15 +10,16 @@ const App = () => {
   const [startChat,setStartChat] = useState(false);
 
   if(startChat){
-    return (<Chat/>)
+    return (<Chat userName={userName} userId={userId}/>);
   }
-  return <Home 
-  userName={userName}
-  setUserName={setUserName}
-  setStartChat={setStartChat}
-  userId={userId}
-  />
-  
+  return (
+    <Home 
+    userName={userName}
+    setUserName={setUserName}
+    setStartChat={setStartChat}
+    userId={userId}
+    />
+  );
 };
 
 export default App
